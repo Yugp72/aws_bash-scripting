@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+echo "Delete stack in cloudformation"
+# print the list of stack name only print name
+aws cloudformation list-stacks --query "StackSummaries[?StackStatus=='CREATE_COMPLETE'].StackName" --output text
+echo "Enter the stack name to delete"
+read stack_name
+# delete the stack
+aws cloudformation delete-stack --stack-name $stack_name --region us-west-2

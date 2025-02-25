@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+
+echo "Deploying CloudFormation stack"
+
+aws cloudformation deploy --template-file templete.yaml --stack-name trytobefirst12 --region ap-south-1 --no-execute-changeset
