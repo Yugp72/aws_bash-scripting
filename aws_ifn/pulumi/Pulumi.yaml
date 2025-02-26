@@ -1,0 +1,7 @@
+name: myFirstProject
+description: check
+runtime: go
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-go

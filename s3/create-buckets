@@ -1,0 +1,16 @@
+#! /usr/bin/env bash
+echo "create buckets of s3"
+ 
+#check for bucket name
+if [ -z "$1"]; then
+    echo "Please provide a bucket name"
+    exit 1
+fi
+
+if [ -z "$2"]; then
+    echo "Please provide region"
+    exit 1
+fi
+echo "bucket name is $1"
+
+aws s3api create-bucket --bucket $1 --region $2 --create-bucket-configuration="LocationConstraint=$2" --query Location 

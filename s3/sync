@@ -1,0 +1,41 @@
+#! /usr/bin/env bash
+
+echo "sync objects in bucket"
+
+if [ -z "$1" ]; then
+    echo "Please provide a bucket name"
+    exit 1
+fi
+
+if [ -z "$2" ]; then
+    echo "Please provide A file name prefix"
+    exit 1
+fi
+
+BUCKET_NAME=$1
+FILE_NAME_PREFIX=$2
+OUTPUR_DIR="/tmp/s3"
+
+ 
+# remove existing same name directory
+rm -r $OUTPUR_DIR
+
+# create new directory  
+mkdir $OUTPUR_DIR
+
+# /NUM_FILES cmd not found ERROR solve
+NUM_FILES=$((RANDOM % 6 + 5))
+
+# create random file with random size
+for (( i = 1 ; i <= $NUM_FILES ; i++ )); do
+    FILE_NAME="$OUTPUR_DIR/$FILE_NAME_PREFIX$i.txt"
+
+    # create file with random size
+    dd if=/dev/urandom of="$FILE_NAME" bs=1024 count=$((RANDOM % 1024 + 1)) 2> /dev/null
+done
+
+tree $OUTPUR_DIR
+
+# sync files to s3 bucket
+aws s3 sync $OUTPUR_DIR s3://$BUCKET_NAME/files
+
